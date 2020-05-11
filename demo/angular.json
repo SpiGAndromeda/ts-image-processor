@@ -137,5 +137,8 @@
       }
     }
   },
-  "defaultProject": "ts-image-processsor-demo"
+  "defaultProject": "ts-image-processsor-demo",
+  "cli": {
+    "analytics": "75f963e7-1aef-40a2-9cc5-2ef3a313c86b"
+  }
 }

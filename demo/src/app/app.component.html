@@ -109,5 +109,82 @@
         </div>
       </div>
     </div>
+
+    <div class="section">
+      <h3>Skew</h3>
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-4">
+                  <div class="btn btn-secondary btn-sm btn-block" (click)="skewImgResult = srcBase64; skewProcessingTime = null;">
+                    Use source image
+                  </div>
+                </div>
+                <div class="col-4">
+                  <button class="btn btn-secondary btn-sm btn-block" (click)="skewImgResult = resizeImgResult; skewProcessingTime = null;" [disabled]="!resizeImgResult">
+                    Use resized image
+                  </button>
+                </div>
+                <div class="col-4">
+                  <button class="btn btn-secondary btn-sm btn-block" (click)="skewImgResult = rotateImgResult; skewProcessingTime = null;" [disabled]="!rotateImgResult">
+                    Use rotated / mirrored image
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="topLeftX">top left x (px)</label>
+              <input #topLeftX id="topLeftX" type="number" class="form-control" value="0" min="1">
+            </div>
+            <div class="form-group">
+              <label for="topLeftY">top left y (px)</label>
+              <input #topLeftY id="topLeftY" type="number" class="form-control" value="0" min="1">
+            </div>
+            <div class="form-group">
+              <label for="bottomLeftX">bottom left x (px)</label>
+              <input #bottomLeftX id="bottomLeftX" type="number" class="form-control" value="0" min="1">
+            </div>
+            <div class="form-group">
+              <label for="bottomLeftY">bottom left y (px)</label>
+              <input #bottomLeftY id="bottomLeftY" type="number" class="form-control" value="100" min="1">
+            </div>
+            <div class="form-group">
+              <label for="topRightX">top right x (px)</label>
+              <input #topRightX id="topRightX" type="number" class="form-control" value="100" min="1">
+            </div>
+            <div class="form-group">
+              <label for="topRightY">top right y (px)</label>
+              <input #topRightY id="topRightY" type="number" class="form-control" value="0" min="1">
+            </div>
+            <div class="form-group">
+              <label for="bottomRightX">bottom right x (px)</label>
+              <input #bottomRightX id="bottomRightX" type="number" class="form-control" value="100" min="1">
+            </div>
+            <div class="form-group">
+              <label for="bottomRightY">bottom right y (px)</label>
+              <input #bottomRightY id="bottomRightY" type="number" class="form-control" value="100" min="1">
+            </div>
+            <div class="form-group" *ngIf="skewImgResult">
+              <div class="btn btn-primary" (click)="onSkew(topLeftX.value, topLeftY.value, bottomLeftX.value, bottomLeftY.value, topRightX.value, topRightY.value, bottomRightX.value, bottomRightY.value)">
+                Skew
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <ng-container *ngIf="rotateIsProcessing || rotateImgResult">
+            <small *ngIf="rotateIsProcessing">Processing...</small>
+            <ng-container *ngIf="rotateImgResult">
+              <img [src]="rotateImgResult" alt="source" class="img-fluid">
+              <div *ngIf="rotateProcessingTime">
+                <small>Processed in {{rotateProcessingTime}}ms</small>
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
   </ng-container>
 </div>

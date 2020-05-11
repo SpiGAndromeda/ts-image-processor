@@ -8,7 +8,8 @@ import {
   imageProcessor,
   applyExifOrientation,
   noop,
-} from 'ts-image-processor';
+} from '../../../build/module';
+import {skew} from "../../../src/lib/operators/skew";
 
 @Component({
   selector:    'app-root',
@@ -27,6 +28,9 @@ export class AppComponent implements OnInit {
   rotateImgResult: string;
   rotateIsProcessing: boolean;
   rotateProcessingTime: number;
+  skewImgResult: string;
+  skewIsProcessing: boolean;
+  skewProcessingTime: number;
 
   constructor() {
   }
@@ -122,6 +126,36 @@ export class AppComponent implements OnInit {
         this.rotateProcessingTime = Math.round((t1 - t0) * 100) / 100;
         this.rotateImgResult      = base64;
       })
+    ;
+  }
+
+  onSkew(topLeftX, topLeftY, bottomLeftX, bottomLeftY, topRightX, topRightY, bottomRightX, bottomRightY) {
+    if (!topLeftX || !topLeftY || !bottomLeftX || !bottomLeftY || !topRightX || !topRightY || !bottomRightX || !bottomRightY) {
+      return;
+    }
+
+    this.skewIsProcessing = true;
+    const t0 = performance.now();
+
+    const targetCoordinates= {
+      topLeft: { x: topLeftX, y: topLeftY },
+      bottomLeft: { x: bottomLeftX, y: bottomLeftY },
+      topRight: { x: topRightX, y: topRightY },
+      bottomRight: { x: bottomRightY, y: bottomRightY },
+    }
+
+    imageProcessor
+      .src(this.srcBase64)
+      .pipe(
+        skew({targetCoordinates: targetCoordinates}),
+      ).then(resultBase64 => {
+        console.log('TEST');
+        const t1                  = performance.now();
+        this.skewProcessingTime = Math.round((t1 - t0) * 100) / 100;
+        this.skewIsProcessing   = false;
+        this.skewImgResult      = resultBase64;
+      },
+    )
     ;
   }
 
